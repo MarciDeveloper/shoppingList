@@ -1,6 +1,6 @@
     <div class="container">
         <footer>
-              <h2 id= foot>My shopping list &copy; <?php echo date("Y"); ?>, Caccamo Marcello </h2>
+              <h2 id= foot>My shopping list &copy; <?php echo date("Y"); ?> </h2>
         </footer>
     </div>
 
