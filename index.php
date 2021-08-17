@@ -54,11 +54,7 @@ session_start();
         </div>
       
     </div>
-    <div class="container">
-            <footer>
-              <h2 id= foot>My shopping list &copy; <?php echo date("Y"); ?>, Caccamo Marcello </h2>
-            </footer>
-            </div>
+    
 
 
     <!-- JavaScript Bundle with Popper -->
