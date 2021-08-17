@@ -39,7 +39,7 @@ session_start();
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
                     <input type="text" class="form-control" id="username" aria-describedby="emailHelp" name="username" 
-                    <?php if (isset($_COOKIE['remember_me'])) {echo "value='$_COOKIE{'remember_me'}'";} else {echo "value=''";} ?> required>
+                    value="<?php echo (isset($_POST['remember_me']));?>" required>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>

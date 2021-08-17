@@ -14,7 +14,7 @@
         $cookie_name = "remember_me";
         $cookie_value = $username;
         $year = time() + 31536000;
-        setcookie($cookie_name, $cookie_value, $year);
+        setcookie($cookie_name, $cookie_value, $year, '/');
     }
     
 
