@@ -1,0 +1,97 @@
+body {
+    width: 100%;
+    font-family: sans-serif;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    background-image:url("../images/nrd-D6Tu_L3chLE-unsplash.jpg") ;
+}
+
+#head {
+    color: white;
+    text-shadow: 2px 2px black;
+    text-align: center;
+    margin: 20px 20px;
+}
+
+div#intro.container {
+    margin-top: 250px;
+    text-align: center;
+    margin-bottom: 200px;
+}
+
+#beginCard {
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 30rem;
+}
+
+h2 {
+    color: #0d6efd;
+    text-shadow: 1px 1px black;
+    text-align: center;
+    margin: 40px 40px;
+}
+
+div.container {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+
+li.list-group-item {
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: red;
+}
+
+
+a.navbar-brand:active {
+    color: #0d6efd;
+}
+
+#loginCard {
+    margin-top: 150px;
+}
+
+#loginForm {
+    padding: 20px;
+}
+
+#registerForm {
+    padding: 20px;
+}
+
+p#log_out {
+    color: white;
+}
+
+div.card {
+    max-width: 30rem;
+    text-align: center;
+    margin: 0 auto;
+    
+}
+
+#remember {
+    float: none;
+}
+
+footer {
+    margin-top: 100px;
+    
+}
+
+#foot {
+    margin: 20px 20px;
+    bottom: 0;
+    color: #0d6efd;
+    text-shadow: 2px 2px black;
+}
+
