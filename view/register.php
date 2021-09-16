@@ -22,7 +22,7 @@ session_start();
         <div class="container-fluid">
             <a class="navbar-brand" href="../index.php">My Shopping list</a>
             <a class="navbar-brand" href="shop.php"><i class="fas fa-shopping-cart"></i></a>
-            <a class="navbar-brand" href="addItem.php">Add Item</a>
+            <a class="navbar-brand" href="catalogue.php">Catalogue</a>
             <a class="navbar-brand" href="destroy.php">Logout</a>
         </div>
     </nav>

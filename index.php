@@ -27,9 +27,10 @@ session_start();
         if( isset($_SESSION['user']) == true ) { 
             // grant access to the authorised areas if logged in
            echo "<a href='view/shop.php' type='button' class='btn btn-secondary'><i class='fas fa-shopping-cart'></i></a> ";
-           echo "<a class='navbar-brand' href='view/addItem.php'>Add Item</a>";
+           
         }
         ?>
+            <a class="navbar-brand" href="view/catalogue.php">Catalogue</a>
             <a class="navbar-brand" href="view/login.php">Login</a>
             <a class="navbar-brand" href="view/destroy.php">Logout</a>
         </div>

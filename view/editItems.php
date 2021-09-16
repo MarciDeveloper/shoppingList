@@ -31,7 +31,7 @@ if(!isset($_SESSION['user']))
         <div class="container-fluid">
             <a class="navbar-brand" href="../index.php">My Shopping list</a>
             <a class="navbar-brand" href="shop.php"><i class="fas fa-shopping-cart"></i></a>
-            <a class="navbar-brand" href="addItem.php">Add Item</a>
+            <a class="navbar-brand" href="catalogue.php">Catalogue</a>
             <a class="navbar-brand" href="destroy.php">Logout</a>
         </div>
     </nav>
@@ -40,22 +40,28 @@ if(!isset($_SESSION['user']))
         // require_once("../controller/connection.php");
         //retrieve the Category_ID from the URL
         $itemID = $_GET['itemID'];
+        $soldID = $_GET['soldID'];
         $itemName = $_GET['itemName'];
         $itemDescription = $_GET['itemDescription'];
         $itemPrice = $_GET['itemPrice'];
+        $itemQuantity = $_GET['itemQuantity'];
+        $orderedQuantity = $_GET['orderedQuantity'];
         // $itemPhoto = $_GET['itemPhoto'];
         global $conn;
         //query to select all categories from the database
-        $sql = "SELECT * FROM shopping_items.item WHERE itemID =$itemID  ";
+        $sql = "SELECT * FROM shopping_items.item INNER JOIN shopping_items.sold ON shopping_items.item.itemID = shopping_items.sold.itemID ";
         //prepared statement
         $statement = $conn->prepare($sql);
         $statement->bindValue(':itemID', $itemID);
+        $statement->bindValue(':soldID', $soldID);
         $statement->bindValue(':itemName', $itemName);
         $statement->bindValue(':itemDescription', $itemDescription);
         $statement->bindValue(':itemPrice', $itemPrice);
+        $statement->bindValue(':itemQuantity', $itemQuantity);
         $statement->execute();
         $result1 = $statement->fetchAll();		
         $statement->closeCursor();
+        
     ?>
     <div class="card">   
     <img class="card-img-top" src="images/grace-o-driscoll-_ODVlLRQoTk-unsplash.jpg" alt="Card image cap">
@@ -63,8 +69,13 @@ if(!isset($_SESSION['user']))
         <div class="card-body">
             <h3 class="card-title">Edit your item</h3>
             <br>
-            <form class="card-text" action="../controller/product_update_process.php?itemID=<?php echo $itemID ?>" method="post">
-                <div>
+            <ul id="edit_details">
+                <li class='list-group-item'><h3><?php echo $_GET['itemName'] ?></h3></li>
+                <li class='list-group-item'><?php echo $_GET['itemDescription'] ?></li>
+                <li class='list-group-item'><?php echo $_GET['itemPrice'] ?></li>
+            </ul>
+            <form class="card-text" action="../controller/product_update_process.php?soldID=<?php echo $soldID ?>&itemID=<?php echo $itemID ?>" method="post">
+                <!-- <div>
                     <label>Name* </label>
                     <input id="itemName" type="text" name="itemName" value="<?php echo $_GET['itemName'] ?>" required />
                 </div>
@@ -75,6 +86,16 @@ if(!isset($_SESSION['user']))
                 <div>
                     <label>Price* </label>
                     <input id="itemPrice" type="text" name="itemPrice" value="<?php echo $_GET['itemPrice'] ?>" required />
+                </div> -->
+                <div>
+                    <label>Quantity* </label>
+                    <input id="itemQuantity" type="number" name="itemQuantity" min='1' max="<?php echo $_GET['itemQuantity'] ?>" value="<?php echo $_GET['orderedQuantity'] ?>" required />
+                </div>
+                <div>
+                    <input  type="hidden" name="orderedQuantity" min='1' max="<?php echo $_GET['orderedQuantity'] ?>" value="<?php echo $_GET['orderedQuantity'] ?>" required />
+                </div>
+                <div>
+                    <input  type="hidden" name="previousQuantity" value="<?php echo $_GET['orderedQuantity'] ?>" required />
                 </div>
                 <br>
                 <div id="submit">

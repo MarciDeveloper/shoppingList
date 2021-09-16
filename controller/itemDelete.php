@@ -14,13 +14,22 @@ if(!isset($_SESSION['user']))
         require_once("../model/functions_products.php");
     // Fetch the data required
     $itemID = $_GET['itemID'];
+    $soldID = $_GET['soldID'];
+    $orderedQuantity = $_GET['orderedQuantity'];
     //call the delete_item() function
-    $result = delete_item($itemID);
+    $result = delete_item($soldID);
     if(!$result) {
     echo ("Query error: " . mysqli_error($conn));
     exit;
     }
     else {
+         // Remove the quantity ordered from the stock available
+    $sql = "UPDATE shopping_items.item SET itemQuantity = itemQuantity + $orderedQuantity WHERE itemID = $itemID";   
+    $statement = $conn->prepare($sql);
+    $statement->bindValue(':itemID', $itemID);
+    $statement->bindValue(':orderedQuantity', $orderedQuantity);
+    $result2 = $statement->execute();
+    $statement->closeCursor();
     // Redirect the browser window back to the add customer page
     header("location: ../index.php");
     }

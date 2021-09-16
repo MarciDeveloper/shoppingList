@@ -4,13 +4,13 @@ session_start();
  //connect to the database
  require("../controller/connection.php");
  // check if the user session is set
- if(isset($_SESSION['user']) == true ) {  
-    // grant access
-  } else { 
-    //redirect 
-    header('location:login.php');
-  }
-   $username = $_SESSION['username'] ;
+//  if(isset($_SESSION['user']) == true ) {  
+//     // grant access
+//   } else { 
+//     //redirect 
+//     header('location:login.php');
+//   }
+//    $username = $_SESSION['username'] ;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,14 +36,18 @@ session_start();
             <a class="navbar-brand" href="destroy.php">Logout</a>
         </div>
     </nav>
-    <h2> Hi <?php echo "$username" ?>, this is your list</h2>
+    <h2> Check our catalogue</h2>
     <div class="container">
         <ul class="list-group">
                     <?php
                         // retrieve the userID logged in
-                        $userID = $_SESSION['userID'];
+                        if(isset($_SESSION['user']) == true ) {  
+                            $userID = $_SESSION['userID'];
+                              } else {
+                                $userID = '';   
+                              };
                         //query the database
-                        $sql = "SELECT * FROM shopping_items.item INNER JOIN shopping_items.sold ON shopping_items.item.itemID = shopping_items.sold.itemID WHERE shopping_items.sold.userID = $userID ";
+                        $sql = "SELECT * FROM shopping_items.item ";
                         //prepared statement
                         $statement = $conn->prepare($sql);
                         $statement->execute();
@@ -52,23 +56,33 @@ session_start();
                         
                         //display the category names in a hyperlink
                         foreach($result as $row): 
-                            $soldID = $row['soldID'];
                             $itemID = $row['itemID']; 
                             $itemName = $row['itemName']; 
                             $itemDescription = $row['itemDescription'];
                             $itemPrice = $row['itemPrice']; 
-                            $orderedQuantity = $row['orderedQuantity'];
                             $itemQuantity = $row['itemQuantity'];
+                            if($itemQuantity === 0) {
+                                $button =  "<button class='submit_item' type='submit' disabled><a id='edit' href = '../controller/product_add_process.php?userID=$userID&itemID=" . $row['itemID'] . "'><i style='color:grey' class='fas fa-plus-circle'></i> </a></button>;";
+                            } else {
+                                $button = "<button class='submit_item' type='submit' ><a id='edit' href = '../controller/product_add_process.php?userID=$userID&itemID=" . $row['itemID'] . "'><i class='fas fa-plus-circle'></i> </a></button>";
+                            };
                             if(!isset($_SESSION['user'])) {
-                            $edit='';} else {
-                            $edit =  "<p><a id='edit' href = 'editItems.php?itemName=$itemName&soldID=$soldID&orderedQuantity=$orderedQuantity&itemQuantity=$itemQuantity&itemDescription=$itemDescription&itemPrice=$itemPrice&itemID=" . $row['itemID'] . "'><i class='far fa-edit'></i> </a> <span> | </span>  <a href= '../controller/itemDelete.php?itemID=$itemID&soldID=$soldID&orderedQuantity=$orderedQuantity' ><i class='fas fa-trash-alt'></i></a></p>"; }                  
-                            echo "<li class='list-group-item' ><h3>".$row['itemName']."</h3><p> " . $row['itemDescription'] . "</p><p> Quantity ordered: " . $row['orderedQuantity'] . "</p>".$edit." </li>";  
-    
+                            $add='';} else {
+                            $add =  "<form method='POST' action='../controller/product_add_process.php?userID=$userID&itemID=" . $row['itemID'] . "'> 
+                            <label for='quantity'>Quantity needed:</label>
+                            <input type='number' id='quantity' name='quantity' min='1' max='$itemQuantity'>
+                            <br>
+                            <br>
+                            $button
+                            </form> "; }                  
+                            echo "<li class='list-group-item' ><h3>".$row['itemName']."</h3><p> " . $row['itemDescription'] . "</p><p> Quantity available: " . $row['itemQuantity'] . "</p>
+                            ".$add."
+                            </li>";  
                         endforeach;
                      ?>
                      <?php
                         if(empty($result)) {
-                            header('location: catalogue.php');
+                            header('location: addItem.php');
                         }
                      ?>
          </ul>

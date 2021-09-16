@@ -1,13 +1,12 @@
 <?php
-function update_item($itemID, $itemName,  $itemDescription, $itemPrice)
+// Create a function to update the item
+function update_item($soldID, $itemQuantity, $orderedQuantity)
 {
   global $conn;
-  $sql = "UPDATE shopping_items.item SET itemName = :itemName, itemDescription = :itemDescription, itemPrice = :itemPrice WHERE itemID = :itemID";
+  $sql = "UPDATE shopping_items.sold SET orderedQuantity = :itemQuantity WHERE soldID = :soldID";
   $statement = $conn->prepare($sql);
-  $statement->bindValue(':itemID', $itemID);
-  $statement->bindValue(':itemName', $itemName);
-  $statement->bindValue(':itemDescription', $itemDescription);
-  $statement->bindValue(':itemPrice', $itemPrice);
+  $statement->bindValue(':soldID', $soldID);
+  $statement->bindValue(':itemQuantity', $itemQuantity);
   $result = $statement->execute();
   $statement->closeCursor();
   return $result;
@@ -17,33 +16,30 @@ function update_item($itemID, $itemName,  $itemDescription, $itemPrice)
 
 <?php
 //create a function to add a new product
-function add_item( $itemName, $itemDescription, $itemPrice, $itemQuantity, $catID, $userID)
+function add_item( $itemID, $userID, $orderedQuantity)
 {
     global $conn;
-    $sql = "INSERT INTO shopping_items.item ( itemName, itemDescription, itemPrice, itemQuantity, catID, userID) VALUES ( :itemName, :itemDescription, :itemPrice, :itemQuantity, :catID , :userID)";
+    $sql = "INSERT INTO shopping_items.sold ( itemID, userID, orderedQuantity) VALUES ( :itemID, :userID, :orderedQuantity)";
     $statement = $conn->prepare($sql);
-    $statement->bindValue(':itemName', $itemName);
-    $statement->bindValue(':itemDescription', $itemDescription);
-    $statement->bindValue(':itemPrice', $itemPrice);
-    $statement->bindValue(':itemQuantity', $itemQuantity);
-    $statement->bindValue(':catID', $catID);
+    $statement->bindValue(':itemID', $itemID);
     $statement->bindValue(':userID', $userID);
+    $statement->bindValue(':orderedQuantity', $orderedQuantity);
     $result = $statement->execute();
     $statement->closeCursor();
-    return $result;   
+    return $result;
+  
 }
 
 ?>
 
 <?php
 //create a function to delete an existing product
-function delete_item($itemID)
+function delete_item($soldID)
 {
     global $conn;
-    $sql = "DELETE FROM shopping_items.item WHERE itemID = :itemID ";
+    $sql = "DELETE FROM shopping_items.sold WHERE soldID = :soldID ";
     $statement = $conn->prepare($sql);
-    $statement->bindValue(':itemID', $itemID);
-    
+    $statement->bindValue(':soldID', $soldID);
     $result = $statement->execute();
     $statement->closeCursor();
     return $result;		
